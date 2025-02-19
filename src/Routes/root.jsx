@@ -1,5 +1,5 @@
 import { useState, useContext, } from "react";
-import { Link, Outlet, useFetcher, useNavigate} from "react-router-dom";
+import { Link, Outlet, useFetcher} from "react-router-dom";
 import { BlogContext } from "../Context/context";
 export default  function Root(){
     const [isOpen, setIsOpen] = useState(false);
@@ -7,7 +7,7 @@ export default  function Root(){
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
- const navigate = useNavigate()
+
 
  const {dispatch}= useContext(BlogContext);
 
@@ -19,8 +19,17 @@ export default  function Root(){
       nameBlog: "Nuevo Blog", 
       contentBlog: "", 
     };
-   dispatch({ type: "UPDATE_BLOG", payload: newBlog });
-   navigate(`/updateBlog/${newBlog.idBlog}`);
+    
+    const formdata = new FormData();
+    
+    formdata.append("idBlog", newBlog.idBlog);
+    formdata.append("nameBlog", "Nuevo Blog");
+    formdata.append("contentBlog","");
+
+    fetcher.submit(formdata,{method:"POST"}) ;
+    
+    dispatch({ type: "UPDATE_BLOG", payload: newBlog });
+    
 
   }
     return(

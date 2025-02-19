@@ -4,6 +4,7 @@ import './index.css'
 import {createBrowserRouter, 
   RouterProvider} from "react-router-dom"
 import Root from "./Routes/root";
+import { rootaction } from './actions';
 import { BlogContextProvider } from './Context/context';
 import UpdateBlog from './Routes/UpdateBlog';
 import { updateBlogAction } from './actions';
@@ -13,6 +14,7 @@ const routes = createBrowserRouter([
   {
     path: "/",
     element: <Root/>,
+    action: rootaction,
     children: [
       {
         element: <UpdateBlog/>,
