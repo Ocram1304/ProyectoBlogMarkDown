@@ -9,6 +9,8 @@ import { BlogContextProvider } from './Context/context';
 import UpdateBlog from './Routes/UpdateBlog';
 import { updateBlogAction } from './actions';
 import Errorelement from './Routes/ErrorElement';
+import Index from './Routes/Index';
+import { indexLoader } from './Routes/loaders';
 const routes = createBrowserRouter([
 
   {
@@ -16,6 +18,12 @@ const routes = createBrowserRouter([
     element: <Root/>,
     action: rootaction,
     children: [
+      {
+        element: <Index/>,
+        index: true,
+        errorElement: <Errorelement/>,
+        loader: indexLoader,
+      },
       {
         element: <UpdateBlog/>,
         path:'/updateBlog/:idBlog',

@@ -1,4 +1,4 @@
-import { db } from "./firebase"; // Importa la instancia de Firestore
+import { db } from "../firebase"; // Importa la instancia de Firestore
 import { getDocs, collection } from "firebase/firestore";
 
 export const indexLoader = async () => {

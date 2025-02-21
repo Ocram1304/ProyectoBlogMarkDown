@@ -1,18 +1,23 @@
-import { useFetcher, useParams } from "react-router-dom";
+import { useParams, useFetcher } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import MDEditor from '@uiw/react-md-editor';
 import { BlogContext } from "../Context/context";
+import Modal from "./Modal";
 
 export default function UpdateBlog() {
-    const fetcher = useFetcher();
+    
+    //Datos del blog
     const [content, setContent] = useState("");
-    const [showModal, setShowModal] = useState(false);
     const [blogName, setBlogName] = useState("");
     const { state, dispatch } = useContext(BlogContext);
     const { idBlog } = useParams();
+    const fetcher = useFetcher();
 
+    //Estados de las modales
+    const [showModal, setShowModal] = useState(false);
+    const [showModalDelete, setshowModalDelete]= useState(false);
     // Cargar los datos del blog cuando el componente se monta o el ID cambia
-    useEffect(() => {
+    useEffect(() => {   
         const loadBlogData = async () => {
             try {
                 if (!state || state.length === 0) {
@@ -43,6 +48,11 @@ export default function UpdateBlog() {
         setShowModal(prev=>!prev);
     };
 
+    //Función para manejar la eliminación del blog
+    const handleDelete = ()=>{
+        setshowModalDelete(prev=>!prev);
+    }
+
     // Función para confirmar el guardado
     const confirmSave = (event) => {
         event.preventDefault();
@@ -59,15 +69,34 @@ export default function UpdateBlog() {
 
         // Enviar datos al backend (opcional)
         const formData = new FormData();
-        formData.append("action", "updateBlog");
-        formData.append("name", blogName);
-        formData.append("content", content);
+        formData.append("action","updateBlog");
+        formData.append("nameBlog", blogName);
+        formData.append("contentBlog", content);
         fetcher.submit(formData, { method: "post" });
 
-        // Cerrar la ventana de confirmación
         setShowModal(false);
     };
-
+    
+    //Funcipon para manejar la eliminación del blog
+    const confirmDelete = (event)=>{
+        event.preventDefault();
+        dispatch({
+            type: "DELETE_BLOG",
+            payload: {
+                idBlog: idBlog,
+                nameBlog: blogName,
+                contentBlog: content,
+            },
+        });
+         
+         const formData = new FormData();
+         formData.append("action", "deleteBlog");
+         formData.append("nameBlog", blogName);
+         formData.append("contentBlog", content);
+         fetcher.submit(formData, { method: "post" });
+ 
+         setshowModalDelete(false);
+    }
     return (
         <>
             <div>
@@ -77,39 +106,39 @@ export default function UpdateBlog() {
                         value={content}
                         onChange={setContent}
                         height={200}
-                        placeholder="Escribe tu contenido aquí"
+                        placeholder={content}
                     />
                 </div>
 
                 {/* Botones */}
                 <div className="buttons">
-                    <button type="button" name="deleteArticle">Borrar</button>
+                    <button type="button" onClick={handleDelete}>Borrar</button>
                     <button type="button" onClick={handleSave}>Guardar</button>
                 </div>
             </div>
 
            
             {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h3>Guardar cambios</h3>
-                        <fetcher.Form onSubmit={confirmSave}>
-                            <label htmlFor="blogName">Nombre del blog:</label>
-                            <input
-                                type="text"
-                                id="blogName"
-                                value={blogName}
-                                onChange={(e) => setBlogName(e.target.value)}
-                                required
-                            />
-                            <div className="modal-buttons">
-                                <button type="button" onClick={() => setShowModal(false)}>Cancelar</button>
-                                <button type="submit">Confirmar</button>
-                            </div>
-                        </fetcher.Form>
-                    </div>
-                </div>
+                <Modal 
+                typeSubmit={confirmSave}
+                setBlogName={setBlogName}
+                setShowModal={setShowModal}
+                blogName={blogName}
+                text={"save"}
+                />    
             )}
+
+            {showModalDelete && (
+                <Modal 
+                typeSubmit={confirmDelete}
+                setBlogName={setBlogName}
+                setShowModal={setshowModalDelete}
+                blogName={blogName}
+                text={"delete"}
+                />    
+            )}
+
+           
         </>
     );
 }
