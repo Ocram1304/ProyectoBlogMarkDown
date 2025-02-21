@@ -48,12 +48,9 @@ export const updateBlogAction = async ({ request, params }) => {
     };
 
     // Ejecutar la acción correspondiente
-    if (services[action]) {
-        return await services[action]();
-    } else {
-        console.error("Acción no válida:", action);
-        return { ok: false, error: "Acción no válida" };
-    }
+    return services[action]
+     ? await services[action]() //Ejecutar la acción correspondiente 
+    : { ok: false, error: "Acción no válida" }; //Devolver error si la acción no es valida
 };
 
 
