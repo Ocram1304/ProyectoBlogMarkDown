@@ -105,15 +105,15 @@ export default function UpdateBlog() {
                     <MDEditor
                         value={content}
                         onChange={setContent}
-                        height={200}
+                        height={350}
                         placeholder={content}
                     />
                 </div>
 
                 {/* Botones */}
-                <div className="buttons">
-                    <button type="button" onClick={handleDelete}>Borrar</button>
-                    <button type="button" onClick={handleSave}>Guardar</button>
+                <div className="buttons-updateBlog">
+                    <button className="btn btn-danger" type="button" onClick={handleDelete}>Borrar</button>
+                    <button className="btn btn-primary" type="button" onClick={handleSave}>Guardar</button>
                 </div>
             </div>
 

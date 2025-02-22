@@ -33,10 +33,10 @@ export default function Modal({
                         </>
                     )}
                     <div className="modal-buttons">
-                        <button type="button" onClick={() => setShowModal(false)}>
+                        <button className="btn btn-danger" type="button" onClick={() => setShowModal(false)}>
                             Cancelar
                         </button>
-                        <button type="submit">Confirmar</button>
+                        <button className="btn btn-primary" type="submit">Confirmar</button>
                     </div>
                 </fetcher.Form>
             </div>
