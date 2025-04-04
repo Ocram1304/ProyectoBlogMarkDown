@@ -5,13 +5,13 @@ import { getFirestore } from "firebase/firestore"; // Para Firestore (base de da
 
 // Configuración de Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBFGk48_rlqq1EHajvCwl5sWsJPOIh17tQ",
-  authDomain: "blogmarkdownbd.firebaseapp.com",
-  projectId: "blogmarkdownbd",
-  storageBucket: "blogmarkdownbd.appspot.com",
-  messagingSenderId: "783393344700",
-  appId: "1:783393344700:web:11f47fed7975e28c1294b9",
-  measurementId: "G-XZSDZ92GXC",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Inicializa Firebase
